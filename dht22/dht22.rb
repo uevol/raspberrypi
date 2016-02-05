@@ -10,7 +10,7 @@ def connect_db
 	host: "localhost",
 	#username: "",
 	#password: "",
-	database: "/home/pi/temphumi/db/development.sqlite3"
+	database: "/home/pi/raspberrypi/temphumi/db/development.sqlite3"
 	)
 
 	return rtn
