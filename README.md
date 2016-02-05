@@ -1,0 +1,2 @@
+# raspberrypi
+从dht22温湿度传感器读取温湿度并保存到sqlite3数据库中，创建ruby on rails的应用程序，使用hightcharts图标将收集到温湿度展示出来。
