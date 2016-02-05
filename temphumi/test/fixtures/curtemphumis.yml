@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  location: MyString
+  temp: 9.99
+  humi: 9.99
+  time: MyString
+
+two:
+  location: MyString
+  temp: 9.99
+  humi: 9.99
+  time: MyString

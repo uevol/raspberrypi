@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+   <!--<script type="text/javascript" src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+   <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+   <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/exporting.js"></script> -->
+   <title>Today's Temperature and Humidity data</title>
+   <!-- // <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script> -->
+   <!-- // <script src="http://code.highcharts.com/highcharts.js"></script> -->
+   <script src="/jquery-2.1.4.min.js"></script>
+   <script src="/Highcharts-4.2.1/js/highcharts.js"></script>
+  
+</head>
+<body>
+  <div id="container" style="min-width:350px;height:290px"></div>
+  <div align="center">
+    <%=link_to "Today's graph", gettemphumi_getdaydata_path %>
+    <%#=link_to "30 days' graph", gettemphumi_getmonthdata_path %>
+    <%#=link_to "Back", gettemphumi_index_path %>
+</div>
+<script>
+  var temp,humi,place;
+   function getdata(){
+         $.ajax({
+                    type: "GET",
+                    url: "./getdata",//"http://192.168.192.169:3000/gettemphumi/getdata",
+                    dataType:"html",
+                    async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+                    success: function(data){
+                              var arr=data.split(" ");
+                              temp = parseInt(arr[0]);
+                              humi = parseInt(arr[1]);
+                              place = arr[2];
+                              //alert(place) ;
+                              }
+                      }); 
+          
+   }
+
+    $(function () {
+    $('#container').highcharts({
+        chart: {
+            type: 'line',
+            animation: Highcharts.svg, // don't animate in IE < IE 10.
+            marginRight: 80,
+            zoomType: 'y',
+             events: {
+                 load: function () {
+                    // set up the updating of the chart each second
+                    var series1 = this.series[0];
+                    var series2 = this.series[1];
+                    setInterval(function () {
+                       getdata();
+                       var cur_time = ((new Date()).getTime()+3600*1000*8); // current time
+                       series1.addPoint([cur_time, temp], true, true);
+                       series2.addPoint([cur_time, humi], true, true);
+                    }, 1000*10);
+                 }
+              }
+        },
+        title: {
+            text: "<%=@date%>" +':ENG-OFFICE T&H Live data'
+        },
+        // subtitle: {
+        //     text: 'Source: WorldClimate.com'
+        // },
+        // plotOptions:{
+        //       line: {
+        //                series :{
+        //                   dataLabels: {
+        //                      enabled: true
+        //                      }
+        //                }
+        //             }
+        //    },
+
+        xAxis: [{
+                  type: 'datetime',
+                  tickPixelInterval: 80
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {
+                format: '{value}°C',
+                style: {
+                    color: '#89A54E'
+                }
+            },
+            title: {
+                text: 'Temperature',
+                style: {
+                    color: '#89A54E'
+                }
+            },
+            //min:-10,
+            minRange: 1
+        }, { // Secondary yAxis
+            title: {
+                text: 'Humidity',
+                style: {
+                    color: '#4572A7'
+                }
+            },
+            labels: {
+                format: '{value} %',
+                style: {
+                    color: '#4572A7'
+                }
+            },
+             //min:0,
+          minRange: 10,
+          
+            opposite: true
+        }],
+        tooltip: {
+            shared: true
+        },
+        // legend: {
+        //     layout: 'horizontal',
+        //     align: 'center',
+        //     x: 10,
+        //     verticalAlign: 'top',
+        //     y: 15,
+        //     floating: true,
+        //     backgroundColor: '#FFFFFF'
+        // },
+        legend: {
+            layout: 'horizontal',
+            align: 'center',
+            x: 0,
+            verticalAlign: 'top',
+            y: 15,
+            floating: true,
+            backgroundColor: '#FFFFFF'
+        },
+        series: [{
+            name: 'Temperature',
+            //color: '#4572A7',
+            color: '#89A54E',
+            type: 'spline',
+            //yAxis: 1,
+            data: (function () {
+         // generate an array of random data
+                                 var data = [],time = ((new Date()).getTime()+3600*1000*8),i;
+                                 for (i = -9; i <= 0; i += 1) {
+                                    data.push({
+                                       x: time + i * 10000,
+                                       y: temp//Math.random()
+                                    });
+                                 }
+                                 return data;
+                              }()) ,
+            tooltip: {
+                valueSuffix: '°C'
+            }
+
+        }, {
+            name: 'Humidity',
+            //color: '#89A54E',
+            color: '#4572A7',
+            type: 'spline',
+            yAxis: 1,
+            data: (function () {
+         // generate an array of random data
+                                 var data = [],time = ((new Date()).getTime()+3600*8*1000),i;
+                                 for (i = -9; i <= 0; i += 1) {
+                                    data.push({
+                                       x: time + i * 10000,
+                                       y: humi//Math.random()
+                                    });
+                                 }
+                                 return data;
+                              }()),
+            tooltip: {
+                valueSuffix: '%'
+            }
+        }]
+    });
+});
+
+Highcharts.theme = { 
+   colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+    chart: { 
+      backgroundColor: { 
+                           linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 }, 
+                                    stops: [ [0, 'rgb(255, 255, 255)'], [1, 'rgb(240, 240, 255)'] ] 
+                        },
+                           borderWidth: 2, 
+                           plotBackgroundColor: 'rgba(255, 255, 255, .9)', 
+                           plotShadow: true, plotBorderWidth: 1 
+                     }, 
+       title: { 
+                  style: { color: '#000', font: 'bold 16px "Trebuchet MS", Verdana, sans-serif' } 
+               }, 
+
+       subtitle: { 
+                  style: { color: '#666666', font: 'bold 12px "Trebuchet MS", Verdana, sans-serif' } 
+               },
+
+       legend: { 
+                  itemStyle: { font: '9pt Trebuchet MS, Verdana, sans-serif', color: 'black' }, 
+               itemHoverStyle: { color: '#039' }, itemHiddenStyle: { color: 'gray' } 
+               },
+
+       labels: { 
+                  style: { color: '#99b' } 
+               },
+
+       navigation: { buttonOptions: { theme: { stroke: '#CCCCCC' } } } 
+    }; 
+// Apply the theme 
+var highchartsOptions = Highcharts.setOptions(Highcharts.theme);
+  </script>
+</body>
+</html>
