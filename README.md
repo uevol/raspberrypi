@@ -19,7 +19,7 @@ https://ruby.taobao.org
 #1. rvm安装
 (1)\curl -sSL https://get.rvm.io | bash -s -- --ignore-dotfiles
 
-(2)echo "source $HOME/.rvm/scripts/rvm" >> ~/.bash_profile
+(2)echo "source $HOME/.rvm/scripts/rvm" >> ~/.bashrc
 
 (3)source /etc/profile
 
