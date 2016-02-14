@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#start  dht22
+#start dht22
 cd /home/pi/raspberrypi/dht22
 sudo ruby dht22.rb &
 
