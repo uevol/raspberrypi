@@ -38,3 +38,6 @@ https://ruby.taobao.org
 
 (2)gem install rails
 
+#效果图
+
+/drives/c/Users/david-yang/Desktop/捕获.PNG
