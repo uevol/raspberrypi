@@ -3,7 +3,7 @@
 
 2、创建ruby on rails的应用程序，使用hightcharts图标将收集到温湿度展示出来。
 
-更换镜像源
+#更换镜像源
 gem sources --add https://ruby.taobao.org/ --remove https://rubygems.org/
 
 $ gem sources -l
