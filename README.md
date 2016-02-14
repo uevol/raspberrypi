@@ -2,6 +2,16 @@
 1、从dht22温湿度传感器读取温湿度并保存到sqlite3数据库中。
 
 2、创建ruby on rails的应用程序，使用hightcharts图标将收集到温湿度展示出来。
+
+更换镜像源
+gem sources --add https://ruby.taobao.org/ --remove https://rubygems.org/
+
+$ gem sources -l
+
+*** CURRENT SOURCES ***
+https://ruby.taobao.org
+# 请确保只有 ruby.taobao.org
+
 #环境安装
 
 #1. rvm安装
