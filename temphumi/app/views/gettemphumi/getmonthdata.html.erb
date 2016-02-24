@@ -12,12 +12,12 @@
   
 </head>
 <body>
-    <%#=@date%>
   <div id="container" style="min-width:350px;height:280px"></div>
-  <div align="center">
-    <%#=link_to "Today T&H graph", gettemphumi_getdaydata_path %>&nbsp&nbsp|&nbsp&nbsp
-    <%=link_to "Back", gettemphumi_index_path %>
-  </div>
+    <div align="center">
+      <%=link_to "Today T&H graph", gettemphumi_getdaydata_path %>&nbsp&nbsp|&nbsp&nbsp
+      <%=link_to "Back", gettemphumi_index_path %>
+    </div>
+
 <script>
     $(function () {
     $('#container').highcharts({
@@ -25,19 +25,11 @@
             zoomType: 'xy'
         },
         title: {
-            text: '30 Days T&H of graph'
+            text: "30 Days T&H of graph"
         },
-        // subtitle: {
-        //     text: 'Source: WorldClimate.com'
-        // },
-        xAxis: {
-                   //type:'category',  
-                   //categories:<%=@date%>
-                   type: 'datetime',
-            dateTimeLabelFormats: {
-                day: '%e. %b'
-            }
-        },
+        xAxis: [{
+            categories: <%=raw @date.to_json%>//['0','1', '2', '3', '4', '5', '6','7', '8', '9', '10', '11', '12', '13', '14', '15', '16','17', '18', '19', '20', '21', '22','23']
+        }],
         yAxis: [{ // Primary yAxis
             labels: {
                 format: '{value}°C',
@@ -51,8 +43,8 @@
                     color: '#89A54E'
                 }
             },
-            min:-10,
-            minRange: 2,
+            //min:-10,
+            minRange: 0.2
         }, { // Secondary yAxis
             title: {
                 text: 'Humidity',
@@ -66,8 +58,8 @@
                     color: '#4572A7'
                 }
             },
-            min:0,
-            minRange: 10,
+           // min:0,
+           minRange: 5,
              opposite: true
         }],
         tooltip: {
@@ -124,9 +116,7 @@
             tooltip: {
                 valueSuffix: '%'
             }
-        }],
-         pointStart: Date.UTC(2016, 0, 1),
-         pointInterval: 24 * 3600 * 1000 // one day
+        }]
     });
 });
 

@@ -15,7 +15,7 @@
     <%#=@record.to_json%>
   <div id="container" style="min-width:350px;height:280px"></div>
   <div align="center">
-    <%#=link_to "30 days' graph", gettemphumi_getmonthdata_path %>
+    <%=link_to "30 days' graph", gettemphumi_getmonthdata_path %>
     <%=link_to "Back", gettemphumi_index_path %>
   </div>
 <script>
@@ -27,9 +27,6 @@
         title: {
             text: "<%=@date%>" +':A Day T&H of graph'
         },
-        // subtitle: {
-        //     text: 'Source: WorldClimate.com'
-        // },
         xAxis: [{
             categories: ['0','1', '2', '3', '4', '5', '6','7', '8', '9', '10', '11', '12', '13', '14', '15', '16','17', '18', '19', '20', '21', '22','23']
         }],
