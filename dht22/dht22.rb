@@ -75,10 +75,15 @@ def save_db temp,humi
 		#othm.save
 end# save db
 
+#get ip and hostname
+hostname=`hostname`.chomp
+output=`ifconfig`
+ip=/(\d{3}\.){3}(\d{3})/.match(output)
+#p ip[0],hostname
+
+#get temp and humi
 while(1) do
-
 	rtn = connect_db
-
 	output = false
 	(0..10).each do |icnt|
 		p "try times: ", icnt
@@ -100,8 +105,6 @@ while(1) do
 		end
 		#sleep(1)
 	end
-
-
 	#output = `sudo ./dht 22 4`
 	#temperature = /Temp =\s+([0-9.]+)/.match(output)
 
@@ -117,8 +120,6 @@ while(1) do
 		#p "save failure!==="
 		#p "An error occurred: ",$!, "\n"
 	#end
-						
-
 	sleep(9)
 
 end #while
